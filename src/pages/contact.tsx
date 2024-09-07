@@ -3,10 +3,20 @@ import 'tailwindcss/tailwind.css';
 import Head from 'next/head';
 import Script from 'next/script';
 import { Appbar, FooterType2 } from "../components";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
+
+// Create a client
+const queryClient1 = new QueryClient();
 
 export default function Contact() {
     return (
-        <>
+        <QueryClientProvider client={queryClient1}>
             <Head>
                 <title>Title | Test</title>
                 <link rel="icon" href="/vercel.svg" />
@@ -39,6 +49,6 @@ export default function Contact() {
                 </p>
                 <FooterType2 isDarkTheme={false}/>
             </main>
-        </>
+        </QueryClientProvider>
     )
 }

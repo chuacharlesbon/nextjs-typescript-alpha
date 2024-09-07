@@ -4,10 +4,21 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { Appbar, FooterType2 } from "../components";
 import { MyCarousel } from '@/components/features/carousel';
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
+
+// Create a client
+const queryClient1 = new QueryClient();
 
 export default function Home() {
+
     return (
-        <>
+        <QueryClientProvider client={queryClient1}>
             <Head>
                 <title>Title | Test</title>
                 <link rel="icon" href="/vercel.svg" />
@@ -41,6 +52,6 @@ export default function Home() {
                 </p>
                 <FooterType2 isDarkTheme={false}/>
             </main>
-        </>
+        </QueryClientProvider>
     )
 }
