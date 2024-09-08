@@ -11,6 +11,8 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query';
+import UserContext, { AppWrapper } from '@/context';
+import React from 'react';
 
 // Create a client
 const queryClient1 = new QueryClient();
@@ -44,14 +46,46 @@ export default function Product() {
                             });
                 `}
             </Script>
-            <main className="flex min-h-screen flex-col items-center justify-between">
-                <Appbar location='/test' onClick={() => {}} />
-                <MyCarousel />
-                <p className="text-center py-64 w-full">
-                    Products Page
-                </p>
-                <FooterType2 isDarkTheme={false}/>
-            </main>
+            <AppWrapper>
+                <main className="flex min-h-screen flex-col items-center justify-between">
+                    <Appbar location='/test' onClick={() => {}} />
+                    <MyCarousel />
+                    <ProductBody />
+                    <FooterType2 isDarkTheme={false}/>
+                </main>
+            </AppWrapper>
         </QueryClientProvider>
     )
+}
+
+function ProductBody() {
+
+    // Access the client
+    const queryClient = useQueryClient();
+    // Queries
+    const query = useQuery({
+        queryKey: ['test1'], queryFn: () => {
+            return fetch("https://cmt-server-public-api.vercel.app/api/ping").then(response => response.json())
+        }
+    });
+    // Queries
+    const query2 = useQuery({
+        queryKey: ['test2'], queryFn: () => {
+            return fetch("https://cmt-server-public-api.vercel.app/api/ping").then(response => response.json())
+        }
+    });
+    console.log(query2);
+
+    const {user, setUser} = React.useContext(UserContext);
+
+    React.useEffect(() => {
+        console.log("trigger");
+        setUser({test: "User data"});
+    }, [])
+
+    return (
+        <p className="text-center py-64 w-full">
+            Product Page, User Context Data: {user.test ?? ""}
+        </p>
+    );
 }

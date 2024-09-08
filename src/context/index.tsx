@@ -5,7 +5,11 @@ import React, { FC } from 'react';
 //context object - data type of an object that can be used to store information that can be shared to other components within the app
 //context object is a different approach to passing information between components and allows us for easier accesss by avoiding the use of prop drilling
 
-let UserContext = React.createContext<any>({ user: "test", setUser: (testVar:any) => "", unsetUser: (testVar:any) => ""});
+let UserContext = React.createContext<any>({
+    user: null,
+    setUser: (testVar:any) => testVar,
+    unsetUser: () => null
+});
 
 //Provider component allows other components to consume the context object and supply the necessary information needed to the context object
 export const UserProvider = UserContext.Provider
@@ -17,7 +21,7 @@ export const AppWrapper: FC<any> = ({ children }) => {
     const unsetUser = () => {
         localStorage.clear()
     }
-    console.log(user);
+    console.log("User Data", user);
     return(
         <UserProvider value={{user, setUser, unsetUser}}>
             {children}
